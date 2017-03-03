@@ -268,6 +268,8 @@ extension UserDefaults {
         set { set(key, newValue) }
     }
     
+    // Arrays
+    
     public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[T]>) -> [T] {
         get { return getArray(key) }
         set { set(key, newValue) }
@@ -275,6 +277,28 @@ extension UserDefaults {
     
     public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[T]?>) -> [T]? {
         get { return getArray(key) }
+        set { set(key, newValue) }
+    }
+    
+    // Stubs
+    
+    public subscript<T: RawRepresentable>(generic key: DefaultsKey<T>) -> T? where T.RawValue: UserDefaultsSerializable {
+        get { return unarchive(key) }
+        set { set(key, newValue!.rawValue) }
+    }
+    
+    public subscript<T: NSCoding>(generic key: DefaultsKey<T>) -> T? {
+        get { return unarchive(key) }
+        set { archive(key, newValue!) }
+    }
+    
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[[T]]>) -> [[T]] {
+        get { fatalError() }
+        set { set(key, newValue) }
+    }
+    
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[String: T]>) -> [String: T] {
+        get { fatalError() }
         set { set(key, newValue) }
     }
 }
