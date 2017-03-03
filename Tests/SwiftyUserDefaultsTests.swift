@@ -316,14 +316,14 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticStringArrayOptional() {
         let key = DefaultsKey<[String]?>("strings")
-        XCTAssert(Defaults[key] == nil)
-        Defaults[key] = ["foo", "bar"]
-        Defaults[key]?.append("baz")
-        XCTAssert(Defaults[key]! == ["foo", "bar", "baz"])
+        XCTAssert(Defaults[generic: key] == nil)
+        Defaults[generic: key] = ["foo", "bar"]
+        Defaults[generic: key]?.append("baz")
+        XCTAssert(Defaults[generic: key]! == ["foo", "bar", "baz"])
         
         // bad types
         Defaults["strings"] = [1, 2, false, "foo"]
-        XCTAssert(Defaults[key] == nil)
+        XCTAssert(Defaults[generic: key] == nil)
     }
     
     func testStaticStringArray() {
@@ -340,9 +340,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticIntArrayOptional() {
         let key = DefaultsKey<[Int]?>("ints")
-        XCTAssert(Defaults[key] == nil)
-        Defaults[key] = [1, 2, 3]
-        XCTAssert(Defaults[key]! == [1, 2, 3])
+        XCTAssert(Defaults[generic: key] == nil)
+        Defaults[generic: key] = [1, 2, 3]
+        XCTAssert(Defaults[generic: key]! == [1, 2, 3])
     }
     
     func testStaticIntArray() {
@@ -355,9 +355,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDoubleArrayOptional() {
         let key = DefaultsKey<[Double]?>("doubles")
-        XCTAssert(Defaults[key] == nil)
-        Defaults[key] = [1.1, 2.2, 3.3]
-        XCTAssert(Defaults[key]! == [1.1, 2.2, 3.3])
+        XCTAssert(Defaults[generic: key] == nil)
+        Defaults[generic: key] = [1.1, 2.2, 3.3]
+        XCTAssert(Defaults[generic: key]! == [1.1, 2.2, 3.3])
     }
     
     func testStaticDoubleArray() {
@@ -369,9 +369,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticBoolArrayOptional() {
         let key = DefaultsKey<[Bool]?>("bools")
-        XCTAssert(Defaults[key] == nil)
-        Defaults[key] = [true, false, true]
-        XCTAssert(Defaults[key]! == [true, false, true])
+        XCTAssert(Defaults[generic: key] == nil)
+        Defaults[generic: key] = [true, false, true]
+        XCTAssert(Defaults[generic: key]! == [true, false, true])
     }
     
     func testStaticBoolArray() {
@@ -383,10 +383,10 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDataArrayOptional() {
         let key = DefaultsKey<[Data]?>("datas")
-        XCTAssert(Defaults[key] == nil)
+        XCTAssert(Defaults[generic: key] == nil)
         let data = "foobar".data(using: .utf8)!
-        Defaults[key] = [data, Data()]
-        XCTAssert(Defaults[key]! == [data, Data()])
+        Defaults[generic: key] = [data, Data()]
+        XCTAssert(Defaults[generic: key]! == [data, Data()])
     }
     
     func testStaticDataArray() {
@@ -398,9 +398,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDateArrayOptional() {
         let key = DefaultsKey<[Date]?>("dates")
-        XCTAssert(Defaults[key] == nil)
-        Defaults[key] = [.distantFuture]
-        XCTAssert(Defaults[key]! == [.distantFuture])
+        XCTAssert(Defaults[generic: key] == nil)
+        Defaults[generic: key] = [.distantFuture]
+        XCTAssert(Defaults[generic: key]! == [.distantFuture])
     }
     
     func testStaticDateArray() {
@@ -411,32 +411,32 @@ class SwiftyUserDefaultsTests: XCTestCase {
     }
     
     func testShortcutsAndExistence() {
-        XCTAssert(Defaults[.strings] == [])
+        XCTAssert(Defaults[generic: .strings] == [])
         XCTAssert(!Defaults.hasKey(.strings))
         
-        Defaults[.strings] = []
+        Defaults[generic: .strings] = []
         
-        XCTAssert(Defaults[.strings] == [])
+        XCTAssert(Defaults[generic: .strings] == [])
         XCTAssert(Defaults.hasKey(.strings))
         
         Defaults.remove(.strings)
         
-        XCTAssert(Defaults[.strings] == [])
+        XCTAssert(Defaults[generic: .strings] == [])
         XCTAssert(!Defaults.hasKey(.strings))
     }
     
     func testShortcutsAndExistence2() {
-        XCTAssert(Defaults[.optStrings] == nil)
+        XCTAssert(Defaults[generic: .optStrings] == nil)
         XCTAssert(!Defaults.hasKey(.optStrings))
         
-        Defaults[.optStrings] = []
+        Defaults[generic: .optStrings] = []
         
-        XCTAssert(Defaults[.optStrings]! == [])
+        XCTAssert(Defaults[generic: .optStrings]! == [])
         XCTAssert(Defaults.hasKey(.optStrings))
         
-        Defaults[.optStrings] = nil
+        Defaults[generic: .optStrings] = nil
         
-        XCTAssert(Defaults[.optStrings] == nil)
+        XCTAssert(Defaults[generic: .optStrings] == nil)
         XCTAssert(!Defaults.hasKey(.optStrings))
     }
     

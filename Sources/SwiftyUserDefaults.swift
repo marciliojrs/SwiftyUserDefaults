@@ -272,6 +272,11 @@ extension UserDefaults {
         get { return getArray(key) }
         set { set(key, newValue) }
     }
+    
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[T]?>) -> [T]? {
+        get { return getArray(key) }
+        set { set(key, newValue) }
+    }
 }
 
 extension UserDefaults {
@@ -388,68 +393,6 @@ extension UserDefaults {
     
     public func getArray<T: Any>(_ key: DefaultsKey<[T]?>) -> [T]? {
         return array(forKey: key._key) as NSArray? as? [T]
-    }
-}
-
-extension UserDefaults {
-    public subscript(key: DefaultsKey<[String]?>) -> [String]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[String]>) -> [String] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Int]?>) -> [Int]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Int]>) -> [Int] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Double]?>) -> [Double]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Double]>) -> [Double] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Bool]?>) -> [Bool]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Bool]>) -> [Bool] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Data]?>) -> [Data]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Data]>) -> [Data] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Date]?>) -> [Date]? {
-        get { return getArray(key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<[Date]>) -> [Date] {
-        get { return getArray(key) }
-        set { set(key, newValue) }
     }
 }
 
