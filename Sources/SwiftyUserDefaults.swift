@@ -232,10 +232,45 @@ extension UserDefaults {
 
 // TODO: Use generic subscripts when they become available
 
+protocol UserDefaultsSerializable { }
+extension String: UserDefaultsSerializable {}
+extension Int: UserDefaultsSerializable {}
+extension Double: UserDefaultsSerializable {}
+extension Bool: UserDefaultsSerializable {}
+extension Data: UserDefaultsSerializable {}
+extension Date: UserDefaultsSerializable {}
+extension URL: UserDefaultsSerializable {}
+
 extension UserDefaults {
-    public subscript<T>(generic key: DefaultsKey<T>) -> T {
-        get { return () as! T }
-        set { }
+    fileprivate func _getValue(_ key: DefaultsKey<String>) -> String {
+        return string(forKey: key._key) ?? ""
+    }
+    
+    fileprivate func _getValue(_ key: DefaultsKey<Int>) -> Int {
+        return numberForKey(key._key)?.intValue ?? 0
+    }
+    
+    fileprivate func _getValue(_ key: DefaultsKey<Double>) -> Double {
+        return numberForKey(key._key)?.doubleValue ?? 0.0
+    }
+    
+    fileprivate func _getValue<T>(_ key: DefaultsKey<T>) -> T {
+        return () as! T
+    }
+}
+
+
+extension UserDefaults {
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<T>) -> T {
+        get {
+            return () as! T
+        }
+        set { set(key, newValue) }
+    }
+    
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<[T]>) -> [T] {
+        get { return getArray(key) }
+        set { set(key, newValue) }
     }
 }
 

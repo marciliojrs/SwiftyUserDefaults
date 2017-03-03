@@ -328,14 +328,14 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticStringArray() {
         let key = DefaultsKey<[String]>("strings")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = ["foo", "bar"]
-        Defaults[key].append("baz")
-        XCTAssert(Defaults[key] == ["foo", "bar", "baz"])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = ["foo", "bar"]
+        Defaults[generic: key].append("baz")
+        XCTAssert(Defaults[generic: key] == ["foo", "bar", "baz"])
         
         // bad types
         Defaults["strings"] = [1, 2, false, "foo"]
-        XCTAssert(Defaults[key] == [])
+        XCTAssert(Defaults[generic: key] == [])
     }
     
     func testStaticIntArrayOptional() {
@@ -347,10 +347,10 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticIntArray() {
         let key = DefaultsKey<[Int]>("ints")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = [3, 2, 1]
-        Defaults[key].sort()
-        XCTAssert(Defaults[key] == [1, 2, 3])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = [3, 2, 1]
+        Defaults[generic: key].sort()
+        XCTAssert(Defaults[generic: key] == [1, 2, 3])
     }
     
     func testStaticDoubleArrayOptional() {
@@ -362,9 +362,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDoubleArray() {
         let key = DefaultsKey<[Double]>("doubles")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = [1.1, 2.2, 3.3]
-        XCTAssert(Defaults[key] == [1.1, 2.2, 3.3])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = [1.1, 2.2, 3.3]
+        XCTAssert(Defaults[generic: key] == [1.1, 2.2, 3.3])
     }
     
     func testStaticBoolArrayOptional() {
@@ -376,9 +376,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticBoolArray() {
         let key = DefaultsKey<[Bool]>("bools")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = [true, false, true]
-        XCTAssert(Defaults[key] == [true, false, true])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = [true, false, true]
+        XCTAssert(Defaults[generic: key] == [true, false, true])
     }
     
     func testStaticDataArrayOptional() {
@@ -391,9 +391,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDataArray() {
         let key = DefaultsKey<[Data]>("datas")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = [Data()]
-        XCTAssert(Defaults[key] == [Data()])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = [Data()]
+        XCTAssert(Defaults[generic: key] == [Data()])
     }
     
     func testStaticDateArrayOptional() {
@@ -405,9 +405,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDateArray() {
         let key = DefaultsKey<[Date]>("dates")
-        XCTAssert(Defaults[key] == [])
-        Defaults[key] = [.distantFuture]
-        XCTAssert(Defaults[key] == [.distantFuture])
+        XCTAssert(Defaults[generic: key] == [])
+        Defaults[generic: key] = [.distantFuture]
+        XCTAssert(Defaults[generic: key] == [.distantFuture])
     }
     
     func testShortcutsAndExistence() {
