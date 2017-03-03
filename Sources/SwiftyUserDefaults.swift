@@ -233,6 +233,14 @@ extension UserDefaults {
 // TODO: Use generic subscripts when they become available
 
 extension UserDefaults {
+    public subscript<T>(generic key: DefaultsKey<T>) -> T {
+        get { return () as! T }
+        set { }
+    }
+}
+
+extension UserDefaults {
+    
     public subscript(key: DefaultsKey<String?>) -> String? {
         get { return string(forKey: key._key) }
         set { set(key, newValue) }
