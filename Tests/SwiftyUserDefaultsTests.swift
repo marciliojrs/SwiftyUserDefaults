@@ -132,69 +132,6 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     // --
     
-    @available(*, deprecated:1)
-    func testOperatorsInt() {
-        // +=
-        let key2 = "int2"
-        Defaults[key2] = 5
-        Defaults[key2] += 2
-        XCTAssertEqual(Defaults[key2].int!, 7)
-        
-        let key3 = "int3"
-        Defaults[key3] += 2
-        XCTAssertEqual(Defaults[key3].int!, 2)
-        
-        let key4 = "int4"
-        Defaults[key4] = "NaN"
-        Defaults[key4] += 2
-        XCTAssertEqual(Defaults[key4].int!, 2)
-        
-        // ++
-        Defaults[key2]++
-        Defaults[key2]++
-        XCTAssertEqual(Defaults[key2].int!, 9)
-        
-        let key5 = "int5"
-        Defaults[key5]++
-        XCTAssertEqual(Defaults[key5].int!, 1)
-    }
-    
-    @available(*, deprecated:1)
-    func testOperatorsDouble() {
-        let key = "double"
-        Defaults[key] = 3.14
-        Defaults[key] += 1.5
-        XCTAssertEqual(Int(Defaults[key].double! *  100.0), 464)
-        
-        let key2 = "double2"
-        Defaults[key2] = 3.14
-        Defaults[key2] += 1
-        XCTAssertEqual(Defaults[key2].double!, 4.0)
-        
-        let key3 = "double3"
-        Defaults[key3] += 5.3
-        XCTAssertEqual(Defaults[key3].double!, 5.3)
-    }
-    
-    @available(*, deprecated:1)
-    func testHuhEquals() {
-        // set and read
-        let key = "string"
-        Defaults[key] = "foo"
-        
-        // ?=
-        Defaults[key] ?= "bar"
-        XCTAssertEqual(Defaults[key].string!, "foo")
-        
-        let key2 = "string2"
-        Defaults[key2] ?= "bar"
-        XCTAssertEqual(Defaults[key2].string!, "bar")
-        Defaults[key2] ?= "baz"
-        XCTAssertEqual(Defaults[key2].string!, "bar")
-    }
-    
-    // --
-    
     func testRemoveAll() {
         Defaults["a"] = "test"
         Defaults["b"] = "test2"
