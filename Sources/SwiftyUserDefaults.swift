@@ -261,6 +261,26 @@ extension UserDefaults {
         } else if type == Data.self {
             return data(forKey: key) ?? Data()
         } else {
+            fatalError("Unsupported value type") // It's possible to compile a call where T is Date, URL, which are unsupported
+        }
+    }
+    
+    fileprivate func _getValueOptional<T: UserDefaultsSerializable>(key: String, type: T.Type) -> UserDefaultsSerializable? {
+        if type == String.self {
+            return string(forKey: key)
+        } else if type == Int.self {
+            return numberForKey(key)?.intValue
+        } else if type == Double.self {
+            return numberForKey(key)?.doubleValue
+        } else if type == Bool.self {
+            return numberForKey(key)?.boolValue
+        } else if type == Data.self {
+            return data(forKey: key)
+        } else if type == Date.self {
+            return object(forKey: key) as? Date
+        } else if type == URL.self {
+            return url(forKey: key)
+        } else {
             fatalError("Unsupported value type")
         }
     }
@@ -271,6 +291,13 @@ extension UserDefaults {
     public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<T>) -> T {
         get {
             return _getValue(key: key._key, type: T.self) as! T
+        }
+        set { set(key, newValue) }
+    }
+    
+    public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<T?>) -> T? {
+        get {
+            return _getValueOptional(key: key._key, type: T.self) as! T?
         }
         set { set(key, newValue) }
     }
@@ -312,46 +339,11 @@ extension UserDefaults {
 
 extension UserDefaults {
     
-    public subscript(key: DefaultsKey<String?>) -> String? {
-        get { return string(forKey: key._key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Int?>) -> Int? {
-        get { return numberForKey(key._key)?.intValue }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Double?>) -> Double? {
-        get { return numberForKey(key._key)?.doubleValue }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Bool?>) -> Bool? {
-        get { return numberForKey(key._key)?.boolValue }
-        set { set(key, newValue) }
-    }
-    
     public subscript(key: DefaultsKey<Any?>) -> Any? {
         get { return object(forKey: key._key) }
         set { set(key, newValue) }
     }
-    
-    public subscript(key: DefaultsKey<Data?>) -> Data? {
-        get { return data(forKey: key._key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Date?>) -> Date? {
-        get { return object(forKey: key._key) as? Date }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<URL?>) -> URL? {
-        get { return url(forKey: key._key) }
-        set { set(key, newValue) }
-    }
-    
+        
     // TODO: It would probably make sense to have support for statically typed dictionaries (e.g. [String: String])
     
     public subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
