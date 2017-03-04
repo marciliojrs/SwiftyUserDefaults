@@ -230,8 +230,6 @@ extension UserDefaults {
 
 // MARK: Subscripts for specific standard types
 
-// TODO: Use generic subscripts when they become available
-
 protocol UserDefaultsSerializable { }
 extension String: UserDefaultsSerializable {}
 extension Int: UserDefaultsSerializable {}
@@ -240,22 +238,31 @@ extension Bool: UserDefaultsSerializable {}
 extension Data: UserDefaultsSerializable {}
 extension Date: UserDefaultsSerializable {}
 extension URL: UserDefaultsSerializable {}
+// extension Array: UserDefaultsSerializable where Element: UserDefaultsSerializable {}
+// extension Dictionary: UserDefaultsSerializable where Key == String, Value: UserDefaultsSerializable {}
+
+protocol UserDefaultsCustomSerializable {
+    init?(fromUserDefaults: Any)            // <-- this should be UserDefaultsSerializable, but no way to express [] and [:] now
+    var toUserDefaults: Any { get }
+}
 
 extension UserDefaults {
-    fileprivate func _getValue(_ key: DefaultsKey<String>) -> String {
-        return string(forKey: key._key) ?? ""
-    }
-    
-    fileprivate func _getValue(_ key: DefaultsKey<Int>) -> Int {
-        return numberForKey(key._key)?.intValue ?? 0
-    }
-    
-    fileprivate func _getValue(_ key: DefaultsKey<Double>) -> Double {
-        return numberForKey(key._key)?.doubleValue ?? 0.0
-    }
-    
-    fileprivate func _getValue<T>(_ key: DefaultsKey<T>) -> T {
-        return () as! T
+    fileprivate func _getValue<T: UserDefaultsSerializable>(key: String, type: T.Type) -> UserDefaultsSerializable {
+        // FIXME: I don't like this, this should be solved at compile-time with generics, not at run time
+        
+        if type == String.self {
+            return string(forKey: key) ?? ""
+        } else if type == Int.self {
+            return numberForKey(key)?.intValue ?? 0
+        } else if type == Double.self {
+            return numberForKey(key)?.doubleValue ?? 0.0
+        } else if type == Bool.self {
+            return numberForKey(key)?.boolValue ?? false
+        } else if type == Data.self {
+            return data(forKey: key) ?? Data()
+        } else {
+            fatalError("Unsupported value type")
+        }
     }
 }
 
@@ -263,7 +270,7 @@ extension UserDefaults {
 extension UserDefaults {
     public subscript<T: UserDefaultsSerializable>(generic key: DefaultsKey<T>) -> T {
         get {
-            return () as! T
+            return _getValue(key: key._key, type: T.self) as! T
         }
         set { set(key, newValue) }
     }
@@ -310,18 +317,8 @@ extension UserDefaults {
         set { set(key, newValue) }
     }
     
-    public subscript(key: DefaultsKey<String>) -> String {
-        get { return string(forKey: key._key) ?? "" }
-        set { set(key, newValue) }
-    }
-    
     public subscript(key: DefaultsKey<Int?>) -> Int? {
         get { return numberForKey(key._key)?.intValue }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Int>) -> Int {
-        get { return numberForKey(key._key)?.intValue ?? 0 }
         set { set(key, newValue) }
     }
     
@@ -330,18 +327,8 @@ extension UserDefaults {
         set { set(key, newValue) }
     }
     
-    public subscript(key: DefaultsKey<Double>) -> Double {
-        get { return numberForKey(key._key)?.doubleValue ?? 0.0 }
-        set { set(key, newValue) }
-    }
-    
     public subscript(key: DefaultsKey<Bool?>) -> Bool? {
         get { return numberForKey(key._key)?.boolValue }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Bool>) -> Bool {
-        get { return numberForKey(key._key)?.boolValue ?? false }
         set { set(key, newValue) }
     }
     
@@ -352,11 +339,6 @@ extension UserDefaults {
     
     public subscript(key: DefaultsKey<Data?>) -> Data? {
         get { return data(forKey: key._key) }
-        set { set(key, newValue) }
-    }
-    
-    public subscript(key: DefaultsKey<Data>) -> Data {
-        get { return data(forKey: key._key) ?? Data() }
         set { set(key, newValue) }
     }
     

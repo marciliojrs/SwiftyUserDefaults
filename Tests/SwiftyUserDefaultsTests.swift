@@ -166,10 +166,10 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticString() {
         let key = DefaultsKey<String>("string")
-        XCTAssert(Defaults[key] == "")
-        Defaults[key] = "foo"
-        Defaults[key] += "bar"
-        XCTAssert(Defaults[key] == "foobar")
+        XCTAssert(Defaults[generic: key] == "")
+        Defaults[generic: key] = "foo"
+        Defaults[generic: key] += "bar"
+        XCTAssert(Defaults[generic: key] == "foobar")
     }
     
     func testStaticIntOptional() {
@@ -181,9 +181,9 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticInt() {
         let key = DefaultsKey<Int>("int")
-        XCTAssert(Defaults[key] == 0)
-        Defaults[key] += 10
-        XCTAssert(Defaults[key] == 10)
+        XCTAssert(Defaults[generic: key] == 0)
+        Defaults[generic: key] += 10
+        XCTAssert(Defaults[generic: key] == 10)
     }
     
     func testStaticDoubleOptional() {
@@ -195,10 +195,10 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticDouble() {
         let key = DefaultsKey<Double>("double")
-        XCTAssertEqual(Defaults[key], 0)
-        Defaults[key] = 2.14
-        Defaults[key] += 1
-        XCTAssertEqual(Defaults[key], 3.14)
+        XCTAssertEqual(Defaults[generic: key], 0)
+        Defaults[generic: key] = 2.14
+        Defaults[generic: key] += 1
+        XCTAssertEqual(Defaults[generic: key], 3.14)
     }
     
     func testStaticBoolOptional() {
@@ -213,11 +213,11 @@ class SwiftyUserDefaultsTests: XCTestCase {
     func testStaticBool() {
         let key = DefaultsKey<Bool>("bool")
         XCTAssert(!Defaults.hasKey("bool"))
-        XCTAssert(Defaults[key] == false)
-        Defaults[key] = true
-        XCTAssert(Defaults[key] == true)
-        Defaults[key] = false
-        XCTAssert(Defaults[key] == false)
+        XCTAssert(Defaults[generic: key] == false)
+        Defaults[generic: key] = true
+        XCTAssert(Defaults[generic: key] == true)
+        Defaults[generic: key] = false
+        XCTAssert(Defaults[generic: key] == false)
     }
     
     func testStaticAnyObject() {
@@ -241,10 +241,10 @@ class SwiftyUserDefaultsTests: XCTestCase {
     
     func testStaticData() {
         let key = DefaultsKey<Data>("data")
-        XCTAssert(Defaults[key] == Data())
+        XCTAssert(Defaults[generic: key] == Data())
         let data = "foobar".data(using: .utf8)!
-        Defaults[key] = data
-        XCTAssert(Defaults[key] == data)
+        Defaults[generic: key] = data
+        XCTAssert(Defaults[generic: key] == data)
     }
     
     func testStaticDate() {
