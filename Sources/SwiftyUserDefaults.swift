@@ -61,7 +61,7 @@ public extension UserDefaults {
         }
         
         public var number: NSNumber? {
-            return defaults.numberForKey(key)
+            return defaults.number(forKey: key)
         }
         
         public var int: Int? {
@@ -113,7 +113,7 @@ public extension UserDefaults {
     
     /// `NSNumber` representation of a user default
     
-    func numberForKey(_ key: String) -> NSNumber? {
+    fileprivate func number(forKey key: String) -> NSNumber? {
         return object(forKey: key) as? NSNumber
     }
     
@@ -253,11 +253,11 @@ extension UserDefaults {
         if type == String.self {
             return string(forKey: key) ?? ""
         } else if type == Int.self {
-            return numberForKey(key)?.intValue ?? 0
+            return number(forKey: key)?.intValue ?? 0
         } else if type == Double.self {
-            return numberForKey(key)?.doubleValue ?? 0.0
+            return number(forKey: key)?.doubleValue ?? 0.0
         } else if type == Bool.self {
-            return numberForKey(key)?.boolValue ?? false
+            return number(forKey: key)?.boolValue ?? false
         } else if type == Data.self {
             return data(forKey: key) ?? Data()
         } else {
@@ -269,11 +269,11 @@ extension UserDefaults {
         if type == String.self {
             return string(forKey: key)
         } else if type == Int.self {
-            return numberForKey(key)?.intValue
+            return number(forKey: key)?.intValue
         } else if type == Double.self {
-            return numberForKey(key)?.doubleValue
+            return number(forKey: key)?.doubleValue
         } else if type == Bool.self {
-            return numberForKey(key)?.boolValue
+            return number(forKey: key)?.boolValue
         } else if type == Data.self {
             return data(forKey: key)
         } else if type == Date.self {
@@ -343,7 +343,7 @@ extension UserDefaults {
         get { return object(forKey: key._key) }
         set { set(key, newValue) }
     }
-        
+    
     // TODO: It would probably make sense to have support for statically typed dictionaries (e.g. [String: String])
     
     public subscript(key: DefaultsKey<[String: Any]?>) -> [String: Any]? {
