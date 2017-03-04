@@ -246,6 +246,16 @@ protocol UserDefaultsCustomSerializable {
     var toUserDefaults: Any { get }
 }
 
+protocol _UserDefaultsBuiltin {} // string, int, ..., [_UserDefaultsBuiltin], [String: _UserDefaultsBuiltin]
+protocol _UserDefaultsSerializable {} // expressible as builtin types. Default conformance for RawRepresentable, NSCoding
+protocol _UserDefaultsDefaultable {} // able to supply default values when nil (string, int, but not date or url)
+
+// let key = DefaultsKey<String>("foo")
+// Defaults[key] -> String
+// Defaults[optional: key] -> String?
+// Defaults["foo", String]
+// Defaults[optional: "foo", String]
+
 extension UserDefaults {
     fileprivate func _getValue<T: UserDefaultsSerializable>(key: String, type: T.Type) -> UserDefaultsSerializable {
         // FIXME: I don't like this, this should be solved at compile-time with generics, not at run time
