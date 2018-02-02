@@ -1,6 +1,5 @@
-### next (4.0)
+### Next
 
-- WIP: Refactor to use generic subscripts
 - Removed deprecated `?=`, `+=`, `++` operators
 
 ### 3.0.1 (2016-11-12)
