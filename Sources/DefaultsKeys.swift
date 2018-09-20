@@ -47,7 +47,7 @@ open class DefaultsKey<ValueType: DefaultsSerializable>: DefaultsKeys {
 
     // Couldn't figure out a way of how to pass a nil/none value from extension, thus this initializer.
     // Used for creating an optional key (without defaultValue)
-    private init(key: String) {
+    fileprivate init(key: String) {
         self._key = key
         self.defaultValue = nil
     }
